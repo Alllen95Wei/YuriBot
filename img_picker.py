@@ -1,11 +1,9 @@
 import os
 import random
 
-img_folder_path = ""
-
 
 def random_pick(nsfw=False):
-    global img_folder_path
+    img_folder_path = ""
     if nsfw:
         choice = random.randint(1, 2)
         if choice == 1:

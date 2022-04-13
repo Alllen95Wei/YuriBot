@@ -22,7 +22,10 @@ async def on_message(message):
         if "百合" in str(message.channel):
             parameter = msg_in[2:]
             if parameter[:4] == "yuri":
-                img = discord.File(img_picker.random_pick())
+                if message.channel.is_nsfw():
+                    img = discord.File(img_picker.random_pick(True))
+                else:
+                    img = discord.File(img_picker.random_pick())
                 await message.channel.send(file=img)
             elif parameter[:4] == "nsfw":
                 if str(message.auther) == str(message.guild.owner):
