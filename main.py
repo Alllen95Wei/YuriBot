@@ -28,14 +28,13 @@ async def on_message(message):
                     img = discord.File(img_picker.random_pick())
                 await message.channel.send(file=img)
             elif parameter[:4] == "nsfw":
-                if str(message.auther) == str(message.guild.owner):
-                    if message.channel.is_nsfw():
-                        embed = discord.Embed(title="nsfw", description="此頻道已啟用nsfw。", color=0xF1411C)
-                        await message.channel.send(embed=embed)
-                    else:
-                        embed = discord.Embed(title="nsfw", description="此頻道未啟用nsfw。如果想要啟用，請至【編輯頻道】→【概要】→【限制級頻道】啟用。",
-                                              color=0xF1411C)
-                        await message.channel.send(embed=embed)
+                if message.channel.is_nsfw():
+                    embed = discord.Embed(title="nsfw", description="此頻道已啟用nsfw。", color=0xF1411C)
+                    await message.channel.send(embed=embed)
+                else:
+                    embed = discord.Embed(title="nsfw", description="此頻道未啟用nsfw。如果想要啟用，請至【編輯頻道】→【概要】→【限制級頻道】啟用。",
+                                          color=0xF1411C)
+                    await message.channel.send(embed=embed)
         else:
             await message.channel.send("請在「百合」頻道使用此機器人。")
 
