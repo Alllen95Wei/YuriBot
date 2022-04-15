@@ -3,6 +3,11 @@ import random
 
 
 def random_pick(nsfw=False):
+    """
+    從img資料夾中隨機選取1張圖片，並回傳路徑。
+    :param nsfw: 是否選取nsfw子資料夾中的圖片。
+    :return:
+    """
     img_folder_path = ""
     if nsfw:
         choice = random.randint(1, 2)
