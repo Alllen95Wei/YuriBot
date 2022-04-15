@@ -5,9 +5,8 @@ import os
 import img_picker
 import log_writter
 
-
-client = discord.Client()
-final_msg_list = []
+intents = discord.Intents.all()
+client = discord.Client(intents=intents)
 
 
 @client.event
@@ -21,7 +20,8 @@ async def on_ready():
 
 @client.event
 async def on_message(message):
-    global final_msg_list
+    final_msg_list = []
+    final_msg_type_list = []
     msg_in = message.content
     if msg_in.startswith("y!"):
         use_log = str(message.channel) + "/" + str(message.author) + ":\n" + msg_in + "\n\n"
@@ -29,37 +29,53 @@ async def on_message(message):
         if "百合" in str(message.channel):
             parameter = msg_in[2:]
             if parameter == "test":
-                await message.channel.send("test")
+                final_msg_list.append("test")
+                final_msg_type_list.append("text")
             if parameter[:4] == "help":
                 embed = discord.Embed(title="協助", description="一隻香香的百合機器人~", color=0xFEE4E4)
                 embed.add_field(name="`help`", value="顯示此協助訊息。", inline=False)
                 embed.add_field(name="`yuri`", value="顯示隨機一張香香的百合圖。", inline=False)
-                embed.add_field(name="`nsfw`", value="檢查頻道的nsfw。", inline=False)
+                embed.add_field(name="`nsfw`", value="檢查並編輯頻道的nsfw狀態。", inline=False)
                 final_msg_list.append(embed)
+                final_msg_type_list.append("embed")
             elif parameter[:4] == "yuri":
                 if message.channel.is_nsfw():
                     img = discord.File(img_picker.random_pick(True))
                 else:
                     img = discord.File(img_picker.random_pick())
                 final_msg_list.append(img)
+                final_msg_type_list.append("file")
             elif parameter[:4] == "nsfw":
-                if message.channel.is_nsfw():
-                    embed = discord.Embed(title="nsfw", description="此頻道已啟用nsfw。", color=0xF1411C)
+                if str(message.author) == str(message.guild.owner):
+                    if message.channel.is_nsfw():
+                        await message.channel.edit(nsfw=False)
+                        embed = discord.Embed(title="nsfw", description="已為此頻道停用nsfw。", color=0xF1411C)
+                    else:
+                        await message.channel.edit(nsfw=True)
+                        embed = discord.Embed(title="nsfw", description="已為此頻道啟用nsfw。", color=0xF1411C)
+                elif str(message.guild.owner) == "None":
+                    embed = discord.Embed(title="nsfw", description="無法取得伺服器擁有者的資訊。", color=0xF1411C)
                 else:
-                    embed = discord.Embed(title="nsfw", description="此頻道未啟用nsfw。如果想要啟用，請至【編輯頻道】→【概要】→【限制級頻道】啟用。",
-                                          color=0xF1411C)
+                    if message.channel.is_nsfw():
+                        nsfw_status = "啟用"
+                    else:
+                        nsfw_status = "停用"
+                    embed = discord.Embed(title="nsfw", description="目前此頻道{0}nsfw。\n你並非伺服器擁有者。請向**{1}**要求。"
+                                          .format(nsfw_status, message.guild.owner), color=0xF1411C)
                 final_msg_list.append(embed)
+                final_msg_type_list.append("embed")
         else:
-            await message.channel.send("請在「百合」頻道使用此機器人。")
+            final_msg_list.append("請在「百合」頻道使用此機器人。")
     for i in range(len(final_msg_list)):
-        new_log = str(message.channel) + "/" + str(client.user) + ":\n" + str(final_msg_list[i-1]) + "\n\n"
-        log_writter.write_log(new_log)
-        if isinstance(final_msg_list[i], discord.File):
+        current_msg = final_msg_list[i]
+        if isinstance(current_msg, discord.File):
             await message.channel.send(file=final_msg_list[i])
-        elif isinstance(final_msg_list[i], discord.Embed):
+        elif isinstance(current_msg, discord.Embed):
             await message.channel.send(embed=final_msg_list[i])
-        elif isinstance(final_msg_list[i], str):
+        elif isinstance(current_msg, str):
             await message.channel.send(final_msg_list[i])
+        new_log = str(message.channel) + "/" + str(client.user) + ":\n" + str(final_msg_list[i]) + "\n\n"
+        log_writter.write_log(new_log)
         # TODO: 找出訊息重複傳送的問題
     final_msg_list.clear()
 
