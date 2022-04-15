@@ -60,7 +60,7 @@ async def on_message(message):
                         nsfw_status = "啟用"
                     else:
                         nsfw_status = "停用"
-                    embed = discord.Embed(title="nsfw", description="目前此頻道{0}nsfw。\n你並非伺服器擁有者。請向**{1}**要求。"
+                    embed = discord.Embed(title="nsfw", description="目前此頻道{0}nsfw。\n你並非伺服器擁有者。請向**{1}**要求更改設定。"
                                           .format(nsfw_status, message.guild.owner), color=0xF1411C)
                 final_msg_list.append(embed)
                 final_msg_type_list.append("embed")
