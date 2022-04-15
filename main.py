@@ -76,7 +76,6 @@ async def on_message(message):
             await message.channel.send(final_msg_list[i])
         new_log = str(message.channel) + "/" + str(client.user) + ":\n" + str(final_msg_list[i]) + "\n\n"
         log_writter.write_log(new_log)
-        # TODO: 找出訊息重複傳送的問題
     final_msg_list.clear()
 
 
