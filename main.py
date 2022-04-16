@@ -66,10 +66,10 @@ async def on_message(message):
                 elif parameter[:4] == "nsfw":
                     if str(message.author) == str(message.guild.owner):
                         if message.channel.is_nsfw():
-                            await message.channel.edit(nsfw=False)
+                            await message.channel.edit(nsfw=False, reason="{0}使用了y!nsfw指令".format(message.author))
                             embed = discord.Embed(title="nsfw", description="已為此頻道停用nsfw。", color=0xF1411C)
                         else:
-                            await message.channel.edit(nsfw=True)
+                            await message.channel.edit(nsfw=True, reason="{0}使用了y!nsfw指令".format(message.author))
                             embed = discord.Embed(title="nsfw", description="已為此頻道啟用nsfw。", color=0xF1411C)
                     elif str(message.guild.owner) == "None":
                         embed = discord.Embed(title="nsfw", description="無法取得伺服器擁有者的資訊。", color=0xF1411C)
