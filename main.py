@@ -21,30 +21,29 @@ async def on_ready():
 @client.event
 async def on_message(message):
     final_msg_list = []
-    final_msg_type_list = []
     msg_in = message.content
     if msg_in.startswith("y!"):
         use_log = str(message.channel) + "/" + str(message.author) + ":\n" + msg_in + "\n\n"
         log_writter.write_log(use_log)
         if "百合" in str(message.channel):
             parameter = msg_in[2:]
+            if parameter == "":
+                embed = discord.Embed(title="百合機器人在此！", description="使用`y!help`來取得指令支援。", color=0xFEE4E4)
+                final_msg_list.append(embed)
             if parameter == "test":
                 final_msg_list.append("test")
-                final_msg_type_list.append("text")
             if parameter[:4] == "help":
                 embed = discord.Embed(title="協助", description="一隻香香的百合機器人~", color=0xFEE4E4)
                 embed.add_field(name="`help`", value="顯示此協助訊息。", inline=False)
                 embed.add_field(name="`yuri`", value="顯示隨機一張香香的百合圖。", inline=False)
                 embed.add_field(name="`nsfw`", value="檢查並編輯頻道的nsfw狀態。", inline=False)
                 final_msg_list.append(embed)
-                final_msg_type_list.append("embed")
             elif parameter[:4] == "yuri":
                 if message.channel.is_nsfw():
                     img = discord.File(img_picker.random_pick(True))
                 else:
                     img = discord.File(img_picker.random_pick())
                 final_msg_list.append(img)
-                final_msg_type_list.append("file")
             elif parameter[:4] == "nsfw":
                 if str(message.author) == str(message.guild.owner):
                     if message.channel.is_nsfw():
@@ -63,9 +62,9 @@ async def on_message(message):
                     embed = discord.Embed(title="nsfw", description="目前此頻道{0}nsfw。\n你並非伺服器擁有者。請向**{1}**要求更改設定。"
                                           .format(nsfw_status, message.guild.owner), color=0xF1411C)
                 final_msg_list.append(embed)
-                final_msg_type_list.append("embed")
         else:
-            final_msg_list.append("請在「百合」頻道使用此機器人。")
+            embed = discord.Embed(title="頻道錯誤", description="請在「百合」頻道使用此機器人。", color=0xFEE4E4)
+            final_msg_list.append(embed)
     for i in range(len(final_msg_list)):
         current_msg = final_msg_list[i]
         if isinstance(current_msg, discord.File):
