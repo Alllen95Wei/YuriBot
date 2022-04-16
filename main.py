@@ -43,7 +43,8 @@ async def on_message(message):
         else:
             use_log = str(message.channel) + "/" + str(message.author) + ":\n" + msg_in + "\n\n"
             log_writter.write_log(use_log)
-            if "百合" in str(message.channel) or "yuri" in str(message.channel).lower():
+            if "百合" in str(message.channel) or "yuri" in str(message.channel).lower() \
+                    or "Direct Message" not in str(message.channel):
                 parameter = msg_in[2:]
                 if parameter == "":
                     embed = discord.Embed(title="百合機器人在此！", description="使用`y!help`來取得指令支援。", color=0xFEE4E4)
