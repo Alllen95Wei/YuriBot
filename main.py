@@ -56,6 +56,7 @@ async def on_message(message):
                     embed.add_field(name="`help`", value="顯示此協助訊息。", inline=False)
                     embed.add_field(name="`yuri`", value="顯示隨機一張香香的百合圖。", inline=False)
                     embed.add_field(name="`nsfw`", value="檢查並編輯頻道的nsfw狀態。", inline=False)
+                    # TODO:新增setchannel的說明
                     final_msg_list.append(embed)
                 elif parameter[:4] == "yuri":
                     if message.channel.is_nsfw():
@@ -81,6 +82,18 @@ async def on_message(message):
                         embed = discord.Embed(title="nsfw", description="目前此頻道{0}nsfw。\n你並非伺服器擁有者。請向**{1}**要求更改設定。"
                                               .format(nsfw_status, message.guild.owner), color=0xF1411C)
                     final_msg_list.append(embed)
+                elif parameter[:10] == "setchannel":
+                    try:
+                        await message.channel.edit(name="黃金百合聖教會-{0}地區分會".format(message.guild.name),
+                                                   reason="{0}使用了y!setchannel指令".format(message.author))
+                        embed = discord.Embed(title="setchannel", description="已為此頻道重新命名為黃金百合聖教會-{0}地區分會。"
+                                              .format(message.guild.name), color=0xFEE4E4)
+                        final_msg_list.append(embed)
+                    except Exception as e:
+                        if "Missing Permissions" in str(e):
+                            e = "權限不足。"
+                        embed = discord.Embed(title="頻道設定", description="設定頻道失敗。原因：{0}".format(e), color=0xF1411C)
+                        final_msg_list.append(embed)
             else:
                 embed = discord.Embed(title="頻道錯誤", description="請在「百合」頻道使用此機器人。", color=0xFEE4E4)
                 final_msg_list.append(embed)
