@@ -60,6 +60,7 @@ async def on_message(message):
                     embed.add_field(name="`ping`", value="查看百合機器人的延遲毫秒數。", inline=False)
                     embed.add_field(name="`sendlog`", value="傳送紀錄文件(`log.txt`)。", inline=False)
                     embed.add_field(name="`test`", value="開啟或關閉測試模式。", inline=False)
+                    embed.add_field(name="`poem`", value="讚嘆百合。", inline=False)
                     final_msg_list.append(embed)
                 elif parameter[:4] == "yuri":
                     if message.channel.is_nsfw():
@@ -108,6 +109,13 @@ async def on_message(message):
                     else:
                         embed = discord.Embed(title="sendlog", description="你並非{0}，因此無權查看紀錄文件。"
                                               .format(client.get_user(657519721138094080)), color=0xF1411C)
+                    final_msg_list.append(embed)
+                elif parameter[:4] == "poem":
+                    embed = discord.Embed(title="poem",
+                                          description="所以，現在是讚嘆百合的時間！請跟著下面的文字一起念！\n\n**"
+                                                      "百合百合 百年好合 幸福長久 唯有百合\n入坑百合 神又如何 開口閉口 句句百合\n百合結婚 毫不違和 我嗑百合 有品有德"
+                                                      "**\n--*教主 劉采妮*",
+                                          color=0xFEE4E4)
                     final_msg_list.append(embed)
             elif msg_in == "y!setchannel":
                 try:
