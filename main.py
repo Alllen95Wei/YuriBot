@@ -61,6 +61,7 @@ async def on_message(message):
                     embed.add_field(name="`sendlog`", value="傳送紀錄文件(`log.txt`)。", inline=False)
                     embed.add_field(name="`test`", value="開啟或關閉測試模式。", inline=False)
                     embed.add_field(name="`poem`", value="讚嘆百合。", inline=False)
+                    embed.add_field(name="`about`", value="取得Yuri Bot的詳細資訊。", inline=False)
                     final_msg_list.append(embed)
                 elif parameter[:4] == "yuri":
                     if message.channel.is_nsfw():
@@ -116,6 +117,19 @@ async def on_message(message):
                                                       "百合百合 百年好合 幸福長久 唯有百合\n入坑百合 神又如何 開口閉口 句句百合\n百合結婚 毫不違和 我嗑百合 有品有德"
                                                       "**\n--*教主 劉采妮*",
                                           color=0xFEE4E4)
+                    final_msg_list.append(embed)
+                elif parameter[:5] == "about":
+                    embed = discord.Embed(title="about",
+                                          description="**Yuri Bot**是Allen Wei使用discord.py所製作出的Discord Bot。",
+                                          color=0xFEE4E4)
+                    embed.add_field(name="程式碼與授權", value="程式碼可在[GitHub](https://github.com/Alllen95Wei/YuriBot)查看。"
+                                                         "\n本程式依據GPL-3.0 License授權。你可以在[這裡]"
+                                                         "(https://github.com/Alllen95Wei/YuriBot/blob/master/LICENSE)"
+                                                         "查看條款。")
+                    embed.add_field(name="聯絡", value="如果你有任何問題，請聯絡Allen Why#5877。")
+                    embed.set_thumbnail(url="https://cdn.discordapp.com/avatars/963578274909392957"
+                                            "/0f67fa0d6f9a80ef840936ab21cba1da.webp?size=1024")
+                    embed.set_footer(text="©Copyright Allen Wei, 2022.")
                     final_msg_list.append(embed)
             elif msg_in == "y!setchannel":
                 try:
