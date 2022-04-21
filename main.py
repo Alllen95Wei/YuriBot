@@ -4,6 +4,7 @@ import os
 
 import img_picker
 import log_writter
+import update
 
 intents = discord.Intents.all()
 client = discord.Client(intents=intents)
@@ -131,6 +132,15 @@ async def on_message(message):
                                             "/0f67fa0d6f9a80ef840936ab21cba1da.webp?size=1024")
                     embed.set_footer(text="©Copyright Allen Wei, 2022.")
                     final_msg_list.append(embed)
+                elif parameter[:6] == "update":
+                    if str(message.author) == str(client.get_user(657519721138094080)):
+                        embed = discord.Embed(title="update", description="已嘗試從GitHub取得更新。請稍待。", color=0xFEE4E4)
+                        update.update(os.getpid())
+                        final_msg_list.append(embed)
+                    else:
+                        embed = discord.Embed(title="update", description="你並非{0}，因此無權更新程式。"
+                                              .format(client.get_user(657519721138094080)), color=0xF1411C)
+                        final_msg_list.append(embed)
             elif msg_in == "y!setchannel":
                 try:
                     await message.channel.edit(name="黃金百合聖教會-{0}地區分會".format(message.guild.name),
