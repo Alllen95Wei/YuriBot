@@ -1,2 +1,2 @@
-cd home/YuriBot/ || exit
+cd /home/YuriBot/ || echo "Failed to change directory."
 python main.py
