@@ -1,2 +1,2 @@
-chdir home\YuriBot
+cd home/YuriBot/ || exit
 python main.py
