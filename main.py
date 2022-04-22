@@ -1,6 +1,7 @@
 import discord
 from dotenv import load_dotenv
 import os
+from platform import system
 
 import img_picker
 import log_writter
@@ -20,6 +21,7 @@ async def on_ready():
 
 
 test_mode = False
+current_os = system()
 
 
 @client.event
@@ -66,9 +68,9 @@ async def on_message(message):
                     final_msg_list.append(embed)
                 elif parameter[:4] == "yuri":
                     if message.channel.is_nsfw():
-                        img = discord.File(img_picker.random_pick(True))
+                        img = discord.File(img_picker.random_pick(True, current_os))
                     else:
-                        img = discord.File(img_picker.random_pick())
+                        img = discord.File(img_picker.random_pick(current_os=current_os))
                     final_msg_list.append(img)
                 elif parameter[:4] == "nsfw":
                     if str(message.author) == str(message.guild.owner):
