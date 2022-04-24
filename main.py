@@ -136,7 +136,7 @@ async def on_message(message):
                     elif parameter[:6] == "update":
                         if str(message.author) == str(client.get_user(657519721138094080)):
                             embed = discord.Embed(title="update", description="已嘗試從GitHub取得更新。請稍待。", color=0xFEE4E4)
-                            update.update(os.getpid())
+                            update.update(os.getpid(), system())
                             final_msg_list.append(embed)
                         else:
                             embed = discord.Embed(title="update", description="你並非{0}，因此無權更新程式。"

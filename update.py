@@ -1,10 +1,13 @@
-def update(pid):
-    import os
+def update(pid, os):
     import subprocess
     from time import sleep
 
-    os.system("cd %USERPROFILE%\\PycharmProjects\\YuriBot")
-    os.system("git pull")
+    subprocess.run("git fetch --all")
+    subprocess.run("git reset --hard origin/master")
+    subprocess.run("git pull")
     sleep(5)
-    subprocess.Popen("\"執行Yuri Bot.bat\"", creationflags=subprocess.CREATE_NEW_CONSOLE)
-    os.system("taskkill /f /PID {0}".format(pid))
+    subprocess.Popen("python main.py", creationflags=subprocess.CREATE_NEW_CONSOLE)
+    if os == "Windows":
+        subprocess.run("taskkill /f /PID {0}".format(pid))
+    elif os == "Linux":
+        subprocess.run("kill -9 {0}".format(pid))
