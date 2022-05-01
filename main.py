@@ -99,7 +99,9 @@ async def on_message(message):
                         except Exception as e:
                             if "Missing Permissions" in str(e):
                                 e = "權限不足。"
-                            embed = discord.Embed(title="頻道設定", description="設定頻道失敗。原因：{0}".format(e), color=0xF1411C)
+                            elif "DMChannel" in str(e):
+                                e = "私人訊息頻道無法重新命名。"
+                            embed = discord.Embed(title="錯誤", description="設定頻道失敗。原因：{0}".format(e), color=0xF1411C)
                             final_msg_list.append(embed)
                     elif parameter[:4] == "ping":
                         embed = discord.Embed(title="ping", description="延遲：{0}ms"
@@ -156,7 +158,9 @@ async def on_message(message):
                 except Exception as e:
                     if "Missing Permissions" in str(e):
                         e = "權限不足。"
-                    embed = discord.Embed(title="頻道設定", description="設定頻道失敗。原因：{0}".format(e), color=0xF1411C)
+                    elif "DMChannel" in str(e):
+                        e = "私人訊息頻道無法重新命名。"
+                    embed = discord.Embed(title="錯誤", description="設定頻道失敗。原因：{0}".format(e), color=0xF1411C)
                     final_msg_list.append(embed)
             else:
                 embed = discord.Embed(title="頻道錯誤", description="請在「百合」頻道使用此機器人。", color=0xFEE4E4)
